@@ -1,0 +1,103 @@
+{
+    "enabled": true,
+    "acf": {
+        "icao": "A306",
+        "author": "iniSimulations "
+    },
+    "speed": {
+        "taxi": -1
+    },
+    "autoUpdate": true,
+    "replace_dref": [],
+    "checkHeights": [
+        {
+            "template": "IMC"
+        },
+        {
+            "template": "VMC"
+        },
+        {
+            "template": "VISUAL"
+        }
+    ],
+    "requirementGroups": [
+        {
+            "template": "Stopping distance"
+        },
+        {
+            "template": "Touchdown zone"
+        },
+        {
+            "template": "Centerline deviation"
+        },
+        {
+            "template": "Single touchdown"
+        },
+        {
+            "template": "Touchdown rate (fpm)"
+        },
+        {
+            "template": "Touchdown g-force"
+        },
+        {
+            "template": "Sink rate"
+        },
+        {
+            "template": "Bank angle"
+        },
+        {
+            "template": "Glideslope deviation",
+            "replace": {
+                "$VDOT": "$sim/cockpit/radios/nav1_vdef_dot"
+            }
+        },
+        {
+            "template": "Localizer deviation",
+            "replace": {
+                "$HDOT": "$sim/cockpit/radios/nav1_hdef_dot"
+            }
+        },
+        {
+            "template": "Approach speed (Vapp)",
+            "replace": {
+                "$VAPP": "$A300/FMS/vapp_speed",
+                "$KIAS": "$sim/cockpit2/gauges/indicators/airspeed_kts_pilot"
+            }
+        },
+        {
+            "template": "Flaps",
+            "replace": {
+                "$FLAPSCONDITION": "$sim/cockpit2/controls/flap_handle_deploy_ratio > 0.95 or ($sim/cockpit2/controls/flap_handle_deploy_ratio >= 0.7 and $sim/cockpit2/controls/flap_handle_deploy_ratio <= 0.8)",
+                "$FLAPSTEXT": "20/20 or FULL"
+            }
+        },
+        {
+            "template": "Gear",
+            "replace": {
+                "$CONDITION": "$A300/GEAR/ldg1_down == 1 and $A300/GEAR/ldg2_down == 1 and $A300/GEAR/ldg3_down == 1"
+            }
+        },
+        {
+            "template": "Speedbrake",
+            "replace": {
+                "$CONDITION": "$sim/cockpit2/controls/speedbrake_ratio < -0.2"
+            }
+        },
+        {
+            "template": "Autoflight",
+            "replace": {
+                "$CONDITION": "$sim/cockpit/autopilot/autopilot_mode < 2"
+            }
+        },
+        {
+            "template": "No Tailstrike",
+            "replace": {
+                "$TAILSTRIKEPITCH": "10.5",
+                "$CAUTIONPITCH": "9.5"
+            }
+        },
+        {
+            "template": "Wind limits"
+        }
+    ]
+}

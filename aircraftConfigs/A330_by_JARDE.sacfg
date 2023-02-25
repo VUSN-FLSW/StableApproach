@@ -1,0 +1,96 @@
+{
+    "enabled": true,
+    "acf": {
+        "icao": "A330",
+        "author": "JARDESIGN (C)"
+    },
+    "speed": {
+        "taxi": -1
+    },
+    "autoUpdate": true,
+    "replace_dref": [],
+    "checkHeights": [
+        {
+            "template": "IMC"
+        },
+        {
+            "template": "VMC"
+        },
+        {
+            "template": "VISUAL"
+        }
+    ],
+    "requirementGroups": [
+        {
+            "template": "Stopping distance"
+        },
+        {
+            "template": "Touchdown zone"
+        },
+        {
+            "template": "Centerline deviation"
+        },
+        {
+            "template": "Single touchdown"
+        },
+        {
+            "template": "Touchdown rate (fpm)"
+        },
+        {
+            "template": "Touchdown g-force"
+        },
+        {
+            "template": "Sink rate"
+        },
+        {
+            "template": "Bank angle"
+        },
+        {
+            "template": "Glideslope deviation",
+            "replace": {
+                "$VDOT": "$sim/cockpit/radios/nav1_vdef_dot"
+            }
+        },
+        {
+            "template": "Localizer deviation",
+            "replace": {
+                "$HDOT": "$sim/cockpit/radios/nav1_hdef_dot"
+            }
+        },
+        {
+            "template": "Approach speed (Vapp)",
+            "replace": {
+                "$VAPP": "$sim/custom/xap/pfd/vappr_knots",
+                "$KIAS": "$sim/cockpit2/gauges/indicators/airspeed_kts_pilot"
+            }
+        },
+        {
+            "template": "Flaps",
+            "replace": {
+                "$FLAPSCONDITION": "$jd/flaps/config > 6.750 or ($jd/flaps/config >= 5.750 and $jd/flaps/config <= 6.250)",
+                "$FLAPSTEXT": "3 or FULL"
+            }
+        },
+        {
+            "template": "Gear",
+            "replace": {
+                "$CONDITION": "$sim/cockpit2/controls/gear_handle_down == 1"
+            }
+        },
+        {
+            "template": "Speedbrake",
+            "replace": {
+                "$CONDITION": "$jd/spdbrakes/handle == -1"
+            }
+        },
+        {
+            "template": "Autoflight",
+            "replace": {
+                "$CONDITION": "$sim/custom/xap/fcu/ap1 != 1 or $sim/custom/xap/fcu/ap2 != 1"
+            }
+        },
+        {
+            "template": "Wind limits"
+        }
+    ]
+}

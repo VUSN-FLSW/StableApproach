@@ -1,0 +1,103 @@
+{
+    "enabled": true,
+    "acf": {
+        "icao": "B732",
+        "author": ""
+    },
+    "speed": {
+        "taxi": -1
+    },
+    "autoUpdate": true,
+    "replace_dref": [],
+    "checkHeights": [
+        {
+            "template": "IMC"
+        },
+        {
+            "template": "VMC"
+        },
+        {
+            "template": "VISUAL"
+        }
+    ],
+    "requirementGroups": [
+        {
+            "template": "Stopping distance"
+        },
+        {
+            "template": "Touchdown zone"
+        },
+        {
+            "template": "Centerline deviation"
+        },
+        {
+            "template": "Single touchdown"
+        },
+        {
+            "template": "Touchdown rate (fpm)"
+        },
+        {
+            "template": "Touchdown g-force"
+        },
+        {
+            "template": "Sink rate"
+        },
+        {
+            "template": "Bank angle"
+        },
+        {
+            "template": "Glideslope deviation",
+            "replace": {
+                "$VDOT": "$sim/cockpit/radios/nav1_vdef_dot"
+            }
+        },
+        {
+            "template": "Localizer deviation",
+            "replace": {
+                "$HDOT": "$sim/cockpit/radios/nav1_hdef_dot"
+            }
+        },
+        {
+            "template": "Approach speed (Vapp)",
+            "replace": {
+                "$VAPP": "$sim/cockpit2/autopilot/airspeed_dial_kts",
+                "$KIAS": "$sim/cockpit2/gauges/indicators/airspeed_kts_pilot"
+            }
+        },
+        {
+            "template": "Flaps",
+            "replace": {
+                "$FLAPSCONDITION": "$sim/cockpit2/controls/flap_handle_deploy_ratio > 0.95 or ($sim/cockpit2/controls/flap_handle_deploy_ratio >= 0.825 and $sim/cockpit2/controls/flap_handle_deploy_ratio <= 0.925)",
+                "$FLAPSTEXT": "30/40"
+            }
+        },
+        {
+            "template": "Gear",
+            "replace": {
+                "$CONDITION": "$FJS/732/FltControls/GearHandlePosition == 0 and $FJS/732/Annun/SysAnnunLIT_119 == 0 and $FJS/732/Annun/SysAnnunLIT_121 == 0 and $FJS/732/Annun/SysAnnunLIT_117 == 0"
+            }
+        },
+        {
+            "template": "Speedbrake",
+            "replace": {
+                "$CONDITION": "$FJS/732/FltControls/SpeedBreakHandleMo < -0.4"
+            }
+        },
+        {
+            "template": "Autoflight",
+            "replace": {
+                "$CONDITION": "$FJS/732/Autopilot/APPitchEngageSwitch == 0"
+            }
+        },
+        {
+            "template": "No Tailstrike",
+            "replace": {
+                "$TAILSTRIKEPITCH": "13.8",
+                "$CAUTIONPITCH": "10.0"
+            }
+        },
+        {
+            "template": "Wind limits"
+        }
+    ]
+}

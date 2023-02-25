@@ -1,0 +1,121 @@
+{
+    "enabled": true,
+    "acf": {
+        "icao": "MD88",
+        "author": "(c) 2013-2017 Juan Alcon, Ivan Arroyo, Pedro Muñoz, Alfredo Torrado"
+    },
+    "speed": {
+        "taxi": -1
+    },
+    "autoUpdate": true,
+    "replace_dref": [],
+    "checkHeights": [
+        {
+            "template": "IMC"
+        },
+        {
+            "template": "VMC"
+        },
+        {
+            "template": "VISUAL"
+        }
+    ],
+    "requirementGroups": [
+        {
+            "template": "Stopping distance"
+        },
+        {
+            "template": "Touchdown zone"
+        },
+        {
+            "template": "Centerline deviation"
+        },
+        {
+            "template": "Single touchdown"
+        },
+        {
+            "template": "Touchdown rate (fpm)"
+        },
+        {
+            "template": "Touchdown g-force"
+        },
+        {
+            "template": "Sink rate"
+        },
+        {
+            "template": "Bank angle"
+        },
+        {
+            "template": "Glideslope deviation",
+            "replace": {
+                "$VDOT": "$sim/cockpit/radios/nav1_vdef_dot"
+            }
+        },
+        {
+            "template": "Localizer deviation",
+            "replace": {
+                "$HDOT": "$sim/cockpit/radios/nav1_hdef_dot"
+            }
+        },
+        {
+            "template": "Approach speed (Vapp)",
+            "replace": {
+                "$VAPP": "$Rotate/md80/autopilot/at_target_speed",
+                "$KIAS": "$sim/cockpit2/gauges/indicators/airspeed_kts_pilot"
+            }
+        },
+        {
+            "template": "Flaps",
+            "replace": {
+                "$FLAPSCONDITION": "$Rotate/md80/systems/flap_handle_position_ratio > 0.95 or ($Rotate/md80/systems/flap_handle_position_ratio >= 0.7 and $Rotate/md80/systems/flap_handle_position_ratio <= 0.8)",
+                "$FLAPSTEXT": "25/30"
+            }
+        },
+        {
+            "template": "Gear",
+            "replace": {
+                "$CONDITION": "$Rotate/md80/misc/gear_handle == 1"
+            }
+        },
+        {
+            "template": "Speedbrake",
+            "replace": {
+                "$CONDITION": "$Rotate/md80/systems/speedbrake_position == -1"
+            }
+        },
+        {
+            "template": "Autoflight",
+            "replace": {
+                "$CONDITION": "$Rotate/md80/autopilot/ap_toggle != 2"
+            }
+        },
+        {
+            "template": "No Tailstrike",
+            "replace": {
+                "$TAILSTRIKEPITCH": "12.0",
+                "$CAUTIONPITCH": "9.0"
+            }
+        },
+        {
+            "template": "Wind limits"
+        },
+        {
+            "name": "Ignition System",
+            "requirements": [
+                {
+                    "name": "Ignition switch not in OVRD position",
+                    "type": 2,
+                    "primaryCondition": "$Rotate/md80/engines/igniter_switch == 4",
+                    "beginConditionMarker": "#CH",
+                    "endConditionMarker": "#TAXI",
+                    "tolerance": 500,
+                    "description": "Ignition switch must be in position OVRD below check height"
+                }
+            ],
+			"description" : {
+				"type" : "aircraft",
+				"text" : "Ignition must be in OVRD before reaching check height"
+			}
+        }
+    ]
+}

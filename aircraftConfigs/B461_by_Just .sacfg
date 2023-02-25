@@ -1,0 +1,86 @@
+{
+    "enabled": true,
+    "acf": {
+        "icao": "B461",
+        "author": "Just Flight / Thranda Design"
+    },
+    "speed": {
+        "taxi": -1
+    },
+    "autoUpdate": true,
+    "replace_dref": [],
+    "checkHeights": [
+        {
+            "template": "IMC"
+        },
+        {
+            "template": "VMC"
+        },
+        {
+            "template": "VISUAL"
+        }
+    ],
+    "requirementGroups": [
+        {
+            "template": "Stopping distance"
+        },
+        {
+            "template": "Touchdown zone"
+        },
+        {
+            "template": "Centerline deviation"
+        },
+        {
+            "template": "Single touchdown"
+        },
+        {
+            "template": "Touchdown rate (fpm)"
+        },
+        {
+            "template": "Touchdown g-force"
+        },
+        {
+            "template": "Sink rate"
+        },
+        {
+            "template": "Bank angle"
+        },
+        {
+            "template": "Glideslope deviation",
+            "replace": {
+                "$VDOT": "$sim/cockpit/radios/nav1_vdef_dot"
+            }
+        },
+        {
+            "template": "Localizer deviation",
+            "replace": {
+                "$HDOT": "$sim/cockpit/radios/nav1_hdef_dot"
+            }
+        },
+        {
+            "template": "Approach speed"
+        },
+        {
+            "template": "Gear",
+            "replace": {
+                "$CONDITION": "$sim/flightmodel2/gear/deploy_ratio == 1"
+            }
+        },
+        {
+            "template": "Flaps",
+            "replace": {
+                "$FLAPSCONDITION": "$sim/cockpit2/controls/flap_ratio > 0.95 or ($sim/cockpit2/controls/flap_ratio >= 0.7 and $sim/cockpit2/controls/flap_ratio <= 0.8)",
+                "$FLAPSTEXT": "25/30"
+            }
+        },
+        {
+            "template": "Autoflight",
+            "replace": {
+                "$CONDITION": "$sim/cockpit/autopilot/autopilot_mode != 2"
+            }
+        },
+        {
+            "template": "Wind limits"
+        }
+    ]
+}
