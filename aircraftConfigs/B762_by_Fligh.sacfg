@@ -1,0 +1,162 @@
+{
+    "enabled": true,
+    "acf": {
+        "icao": "B762",
+        "author": "FlightFactor and StepToSky"
+    },
+    "speed": {
+        "taxi": -1
+    },
+    "autoUpdate": true,
+    "replace_dref": [
+        {
+            "old": "sim/cockpit/radios/nav1_freq_hz",
+            "new": "sim/cockpit2/radios/actuators/nav2_left_frequency_hz"
+        },
+        {
+            "old": "sim/cockpit/radios/nav1_hdef_dot",
+            "new": "sim/cockpit/radios/nav2_hdef_dot"
+        },
+        {
+            "old": "sim/cockpit/radios/nav1_vdef_dot",
+            "new": "sim/cockpit/radios/nav2_vdef_dot"
+        }
+    ],
+    "checkHeights": [
+        {
+            "template": "IMC"
+        },
+        {
+            "template": "VMC"
+        },
+        {
+            "template": "VISUAL"
+        }
+    ],
+    "requirementGroups": [
+        {
+            "template": "Stopping distance"
+        },
+        {
+            "template": "Touchdown zone"
+        },
+        {
+            "template": "Centerline deviation"
+        },
+        {
+            "template": "Single touchdown"
+        },
+        {
+            "template": "Touchdown rate (fpm)"
+        },
+        {
+            "template": "Touchdown g-force"
+        },
+        {
+            "template": "Sink rate"
+        },
+        {
+            "template": "Bank angle"
+        },
+        {
+            "template": "Glideslope deviation",
+            "replace": {
+                "$VDOT": "$sim/cockpit/radios/nav2_vdef_dot"
+            }
+        },
+        {
+            "template": "Localizer deviation",
+            "replace": {
+                "$HDOT": "$sim/cockpit/radios/nav2_hdef_dot"
+            }
+        },
+        {
+            "name": "Approach speed",
+            "requirements": [
+                {
+                    "name": "Approach speed",
+                    "type": 2,
+                    "primaryCondition": "($757Avionics/fms/vref - 3) <= $sim/cockpit2/gauges/indicators/airspeed_kts_pilot\nand\n($757Avionics/fms/vref + 20) >= $sim/cockpit2/gauges/indicators/airspeed_kts_pilot",
+                    "beginConditionMarker": "#CH",
+                    "endConditionMarker": "$.ft_ARTE < 100",
+                    "secondaryCondition": "$757Avionics/fms/vref > 50",
+                    "secondaryConditionMarker": "#CH",
+                    "tolerance": 3000,
+                    "description": "Speed during approach must be between:\nVREF\n  and\nVREF + 15"
+                },
+                {
+                    "name": "Approach speed",
+                    "type": 1,
+                    "primaryCondition": "($757Avionics/fms/vref ) <= $sim/cockpit2/gauges/indicators/airspeed_kts_pilot\nand\n($757Avionics/fms/vref + 15) >= $sim/cockpit2/gauges/indicators/airspeed_kts_pilot",
+                    "beginConditionMarker": "#CH",
+                    "endConditionMarker": "$.ft_ARTE < 100",
+                    "secondaryCondition": "$757Avionics/fms/vref > 50",
+                    "secondaryConditionMarker": "#TD-3000ms",
+                    "tolerance": 3000,
+                    "description": "Speed during approach must be between:\nVREF\n  and\nVREF + 15"
+                },
+                {
+                    "name": "Approach speed",
+                    "type": 2,
+                    "primaryCondition": "($757Avionics/ap/spd_act - 8) <= $sim/cockpit2/gauges/indicators/airspeed_kts_pilot\nand\n($757Avionics/ap/spd_act + +15) >= $sim/cockpit2/gauges/indicators/airspeed_kts_pilot",
+                    "beginConditionMarker": "#CH",
+                    "endConditionMarker": "$.ft_ARTE < 100",
+                    "secondaryCondition": "$757Avionics/fms/vref < 50",
+                    "secondaryConditionMarker": "#CH",
+                    "tolerance": 3000,
+                    "description": "This only applies if VREF has NOT been set in the CDU:\nSpeed during approach must be between:\nVapp-5\n  and\nVapp + 10"
+                },
+                {
+                    "name": "Approach speed",
+                    "type": 1,
+                    "primaryCondition": "($757Avionics/ap/spd_act -5) <= $sim/cockpit2/gauges/indicators/airspeed_kts_pilot\nand\n($757Avionics/fms/vref + 10) >= $sim/cockpit2/gauges/indicators/airspeed_kts_pilot",
+                    "beginConditionMarker": "#CH",
+                    "endConditionMarker": "$.ft_ARTE < 100",
+                    "secondaryCondition": "$757Avionics/fms/vref < 50",
+                    "secondaryConditionMarker": "#TD-3000ms",
+                    "tolerance": 3000,
+                    "description": "This only applies if VREF has NOT been set in the CDU:\nSpeed during approach must be between:\nVapp-5\n  and\nVapp + 10"
+                }
+            ],
+			"description" : {
+				"type" : "aircraft",
+				"text" : "Set Vref in FMC.\nKeep approach speed between Vref-0 and Vref+15\nApproach speed is normally Vref+5.\nFluctuations in airspeed due to turbulence are acceptable"
+			}
+        },
+        {
+            "template": "Flaps",
+            "replace": {
+                "$FLAPSCONDITION": "$sim/cockpit2/controls/flap_handle_deploy_ratio >= 0.95 or ($sim/cockpit2/controls/flap_handle_deploy_ratio >= 0.78 and $sim/cockpit2/controls/flap_handle_deploy_ratio <= 0.9)",
+                "$FLAPSTEXT": "25/30"
+            }
+        },
+        {
+            "template": "Gear",
+            "replace": {
+                "$CONDITION": "$sim/cockpit2/controls/gear_handle_down == 1 and $sim/cockpit2/annunciators/gear_unsafe == 0"
+            }
+        },
+        {
+            "template": "Speedbrake",
+            "replace": {
+                "$CONDITION": "$sim/cockpit2/controls/speedbrake_ratio < -0.1"
+            }
+        },
+        {
+            "template": "Autoflight",
+            "replace": {
+                "$CONDITION": "$sim/cockpit2/autopilot/servos_on == 0"
+            }
+        },
+        {
+            "template": "No Tailstrike",
+            "replace": {
+                "$TAILSTRIKEPITCH": "11.0",
+                "$CAUTIONPITCH": "7.5"
+            }
+        },
+        {
+            "template": "Wind limits"
+        }
+    ]
+}

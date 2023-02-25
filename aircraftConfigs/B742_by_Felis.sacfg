@@ -1,0 +1,103 @@
+{
+    "enabled": true,
+    "acf": {
+        "icao": "B742",
+        "author": "Felis Leopard"
+    },
+    "speed": {
+        "taxi": -1
+    },
+    "autoUpdate": true,
+    "replace_dref": [],
+    "checkHeights": [
+        {
+            "template": "IMC"
+        },
+        {
+            "template": "VMC"
+        },
+        {
+            "template": "VISUAL"
+        }
+    ],
+    "requirementGroups": [
+        {
+            "template": "Stopping distance"
+        },
+        {
+            "template": "Touchdown zone"
+        },
+        {
+            "template": "Centerline deviation"
+        },
+        {
+            "template": "Single touchdown"
+        },
+        {
+            "template": "Touchdown rate (fpm)"
+        },
+        {
+            "template": "Touchdown g-force"
+        },
+        {
+            "template": "Sink rate"
+        },
+        {
+            "template": "Bank angle"
+        },
+        {
+            "template": "Glideslope deviation",
+            "replace": {
+                "$VDOT": "$sim/cockpit/radios/nav1_vdef_dot"
+            }
+        },
+        {
+            "template": "Localizer deviation",
+            "replace": {
+                "$HDOT": "$sim/cockpit/radios/nav1_hdef_dot"
+            }
+        },
+        {
+            "template": "Approach speed (Vapp)",
+            "replace": {
+                "$VAPP": "$B742/AP_panel/AT_spd_set_rotary",
+                "$KIAS": "$sim/cockpit2/gauges/indicators/airspeed_kts_pilot"
+            }
+        },
+        {
+            "template": "Flaps",
+            "replace": {
+                "$FLAPSCONDITION": "$sim/cockpit2/controls/flap_handle_deploy_ratio > 0.95 or ($sim/cockpit2/controls/flap_handle_deploy_ratio >= 0.78 and $sim/cockpit2/controls/flap_handle_deploy_ratio <= 0.88)",
+                "$FLAPSTEXT": "25/30"
+            }
+        },
+        {
+            "template": "Gear",
+            "replace": {
+                "$CONDITION": "$B742/controls/gear_lever_pos == 1 and $B742/front_lamps/LG_gear_down_lit == 1"
+            }
+        },
+        {
+            "template": "Speedbrake",
+            "replace": {
+                "$CONDITION": "$sim/cockpit2/controls/speedbrake_ratio == 0.333333"
+            }
+        },
+        {
+            "template": "Autoflight",
+            "replace": {
+                "$CONDITION": "$B742/AP_panel/AP_engage_A < 2 and $B742/AP_panel/AP_engage_B < 2"
+            }
+        },
+        {
+            "template": "No Tailstrike",
+            "replace": {
+                "$TAILSTRIKEPITCH": "12.0",
+                "$CAUTIONPITCH": "9.0"
+            }
+        },
+        {
+            "template": "Wind limits"
+        }
+    ]
+}

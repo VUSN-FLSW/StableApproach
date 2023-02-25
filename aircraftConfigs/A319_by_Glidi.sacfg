@@ -1,0 +1,117 @@
+{
+    "enabled": true,
+    "acf": {
+        "icao": "A319",
+        "author": "Gliding Kiwi"
+    },
+    "speed": {
+        "taxi": -1
+    },
+    "autoUpdate": true,
+    "replace_dref": [
+        {
+            "old": "sim/cockpit/radios/nav1_freq_hz",
+            "new": "toliss_airbus/pfdoutputs/general/ils_frequency"
+        },
+        {
+            "old": "sim/cockpit/radios/nav1_hdef_dot",
+            "new": "AirbusFBW/ILS1LocRaw"
+        },
+        {
+            "old": "sim/cockpit/radios/nav1_vdef_dot",
+            "new": "AirbusFBW/ILS1GSRaw"
+        }
+    ],
+    "checkHeights": [
+        {
+            "template": "IMC"
+        },
+        {
+            "template": "VMC"
+        },
+        {
+            "template": "VISUAL"
+        }
+    ],
+    "requirementGroups": [
+        {
+            "template": "Stopping distance"
+        },
+        {
+            "template": "Touchdown zone"
+        },
+        {
+            "template": "Centerline deviation"
+        },
+        {
+            "template": "Single touchdown"
+        },
+        {
+            "template": "Touchdown rate (fpm)"
+        },
+        {
+            "template": "Touchdown g-force"
+        },
+        {
+            "template": "Sink rate"
+        },
+        {
+            "template": "Bank angle"
+        },
+        {
+            "template": "Glideslope deviation",
+            "replace": {
+                "$VDOT": "$AirbusFBW/ILS1GSRaw"
+            }
+        },
+        {
+            "template": "Localizer deviation",
+            "replace": {
+                "$HDOT": "$AirbusFBW/ILS1LocRaw"
+            }
+        },
+        {
+            "template": "Approach speed (Vref)",
+            "replace": {
+                "$VREF": "$toliss_airbus/pfdoutputs/general/VLS_value",
+                "$KIAS": "$sim/cockpit2/gauges/indicators/airspeed_kts_pilot"
+            }
+        },
+        {
+            "template": "Flaps",
+            "replace": {
+                "$FLAPSCONDITION": "$sim/cockpit2/controls/flap_handle_deploy_ratio > 0.95 or ($sim/cockpit2/controls/flap_handle_deploy_ratio >= 0.7 and $sim/cockpit2/controls/flap_handle_deploy_ratio <= 0.8)",
+                "$FLAPSTEXT": "3 or FULL"
+            }
+        },
+        {
+            "template": "Gear",
+            "replace": {
+                "$CONDITION": "$AirbusFBW/RightGearInd == 2 and $AirbusFBW/LeftGearInd == 2 and $AirbusFBW/NoseGearInd == 2"
+            }
+        },
+        {
+            "template": "Speedbrake",
+            "replace": {
+                "$CONDITION": "$sim/cockpit2/controls/speedbrake_ratio < -0.2"
+            }
+        },
+        {
+            "template": "Autoflight",
+            "replace": {
+                "$CONDITION": "$AirbusFBW/AP1Engage == 0 and $AirbusFBW/AP2Engage == 0"
+            }
+        },
+        {
+            "template": "No Tailstrike",
+            "replace": {
+                "$TAILSTRIKEPITCH": "15.5",
+                "$CAUTIONPITCH": "8.0"
+            }
+        },
+        {
+            "template": "Wind limits"
+        }
+
+    ]
+}

@@ -1,0 +1,152 @@
+{
+    "enabled": true,
+    "acf": {
+        "icao": "MD11",
+        "author": "(c) 2013-2022 Juan Alcon, Ivan Arroyo, Alfredo Torrado"
+    },
+    "speed": {
+        "taxi": -1
+    },
+    "autoUpdate": true,
+    "replace_dref": [],
+		"description" : {
+		"text" : "Confirm Vapp in the CDU before starting the approach.\nThe approach speed should then be written in big letters in the CDU"
+	},
+    "checkHeights": [
+        {
+            "template": "IMC"
+        },
+        {
+            "template": "VMC"
+        },
+        {
+            "template": "VISUAL"
+        }
+    ],
+    "requirementGroups": [
+        {
+            "template": "Stopping distance"
+        },
+        {
+            "template": "Touchdown zone"
+        },
+        {
+            "template": "Centerline deviation"
+        },
+        {
+            "template": "Single touchdown"
+        },
+        {
+            "template": "Touchdown rate (fpm)"
+        },
+        {
+            "template": "Touchdown g-force"
+        },
+        {
+            "template": "Sink rate"
+        },
+        {
+            "template": "Bank angle"
+        },
+        {
+            "template": "Glideslope deviation",
+            "replace": {
+                "$VDOT": "$sim/cockpit/radios/nav1_vdef_dot"
+            }
+        },
+        {
+            "template": "Localizer deviation",
+            "replace": {
+                "$HDOT": "$sim/cockpit/radios/nav1_hdef_dot"
+            }
+        },
+        {
+            "name": "Approach speed",
+            "requirements": [
+                {
+                    "name": "Vapp not set",
+                    "type": 2,
+                    "primaryCondition": "$Rotate/aircraft/systems/fms_data_vapp#0 > 50",
+                    "beginConditionMarker": "#CH",
+                    "endConditionMarker": "#TD-3000ms",
+                    "description": "Set/confirm Vapp in FMC/CDU"
+                },
+                {
+                    "name": "Approach speed",
+                    "type": 2,
+                    "primaryCondition": "($Rotate/aircraft/systems/fms_data_vapp#0 - 8) <= $sim/cockpit2/gauges/indicators/airspeed_kts_pilot and ($Rotate/aircraft/systems/fms_data_vapp#0 + 15) >= $sim/cockpit2/gauges/indicators/airspeed_kts_pilot",
+                    "beginConditionMarker": "#CH",
+                    "endConditionMarker": "$.ft_ARTE < 100",
+                    "tolerance": 3000,
+                    "description": "Speed during approach must be between:\nVapp -5 and Vapp +10"
+                },
+                {
+                    "name": "Approach speed",
+                    "type": 1,
+                    "primaryCondition": "($Rotate/aircraft/systems/fms_data_vapp#0 - 5) <= $sim/cockpit2/gauges/indicators/airspeed_kts_pilot and ($Rotate/aircraft/systems/fms_data_vapp#0 + 10) >= $sim/cockpit2/gauges/indicators/airspeed_kts_pilot",
+                    "beginConditionMarker": "#CH",
+                    "endConditionMarker": "$.ft_ARTE < 100",
+                    "tolerance": 3000,
+                    "description": "Speed during approach must be between:\nVapp -5 and Vapp +10"
+                }
+            ],
+			"description" : {
+				"type" : "aircraft",
+				"text" : "Set/confirm Vapp in FMC.\nKeep approach speed between Vref-0 and Vref+15\nApproach speed is normally Vref+5.\nFluctuations in airspeed due to turbulence are acceptable"
+			}
+        },
+        {
+            "template": "Flaps",
+            "replace": {
+                "$FLAPSCONDITION": "$Rotate/aircraft/systems/flaps_cmd_pos_deg == 35 or $Rotate/aircraft/systems/flaps_cmd_pos_deg == 50",
+                "$FLAPSTEXT": "35/50"
+            }
+        },
+        {
+            "template": "Gear",
+            "replace": {
+                "$CONDITION": "$Rotate/aircraft/controls/gear_handle == 1"
+            }
+        },
+        {
+            "template": "Speedbrake",
+            "replace": {
+                "$CONDITION": "$Rotate/aircraft/controls/auto_spoiler_ctrl == 1"
+            }
+        },
+        {
+            "template": "Autoflight",
+            "replace": {
+                "$CONDITION": "$Rotate/aircraft/controls/fgs_autoflight == 0"
+            }
+        },
+        {
+            "template": "No Tailstrike",
+            "replace": {
+                "$TAILSTRIKEPITCH": "13.8",
+                "$CAUTIONPITCH": "10.0"
+            }
+        },
+        {
+            "template": "Wind limits"
+        },
+        {
+            "name": "Ignition System",
+            "requirements": [
+                {
+                    "name": "Ignition OVRD not enabled",
+                    "type": 1,
+                    "primaryCondition": "$Rotate/aircraft/controls/ign_sys_ovrd == 1",
+                    "beginConditionMarker": "#CH",
+                    "endConditionMarker": "#TAXI",
+                    "tolerance": 1000,
+                    "description": "Ignition OVRD should be enabled below check height"
+                }
+            ],
+			"description" : {
+				"type" : "aircraft",
+				"text" : "Ignition must be in OVRD before reaching check height"
+			}
+        }
+    ]
+}
